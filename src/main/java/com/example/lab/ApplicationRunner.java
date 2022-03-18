@@ -3,7 +3,12 @@ package com.example.lab;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.nio.file.Path;
 
 public class ApplicationRunner extends Application {
 
@@ -27,7 +32,12 @@ public class ApplicationRunner extends Application {
             sceneMenu = new Scene(fxmlLoader.load());
 
             fxmlLoader = new FXMLLoader(getClass().getResource("application-settings-view.fxml"));
-            sceneSettings = new Scene(fxmlLoader.load());
+
+            BorderPane layoutSettings = FXMLLoader.load(
+                    new URL(ApplicationRunner.class.getResource("application-settings-view.fxml")
+                            .toExternalForm())
+            );
+            sceneSettings = new Scene(layoutSettings);
 
             sceneSimulation.setOnKeyPressed(keyEvent -> {
                 switch (keyEvent.getCode()) {
@@ -38,7 +48,12 @@ public class ApplicationRunner extends Application {
             });
 
             stage.setTitle("Program");
-            stage.setScene(sceneMenu);
+            stage.getIcons().add(new Image(Path.of("src", "main", "resources",
+                            "com", "example", "lab", "photo", "developer.png")
+                    .toFile().toURI().toString()));
+
+//            stage.setScene(sceneMenu);
+            stage.setScene(sceneSettings);
             stage.show();
             stage.setResizable(false);
         } catch (Exception e) {

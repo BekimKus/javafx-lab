@@ -4,17 +4,14 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -27,11 +24,26 @@ import org.controlsfx.control.ToggleSwitch;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Pattern;
 
-public class Habitat {
+public class Habitat implements Initializable {
+    /**
+     * Settings elements
+     */
+    @FXML
+    public ComboBox<String> comboBoxAppearanceProbability = new ComboBox<>();
+    @FXML
+    public TextArea textAreaDeveloperAppearancePeriod;
+    @FXML
+    public TextArea textAreaManagerAppearancePeriod;
+
+    /**
+     * Simulation elements and parameters
+     */
     @FXML
     public Button buttonSwitchMainToMenuScene;
     @FXML
@@ -63,14 +75,22 @@ public class Habitat {
     private int developerCount = 0;
     private int managerCount = 0;
 
-    private static double N1 = 4;
-    private static double N2 = 5;
+    private static int DevProb = 4;
+    private static int ManagerProb = 5;
     private static final double K = 0.5;
-    private static final double P1 = 0.9;
+    private static double appearanceProb = 0.9;
     private boolean isEnd = true;
     private ArrayList <Employee> employees = new ArrayList<>();
 
+//    private ObservableList<String> observableList = FXCollections.observableList(List.of(
+//            "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"
+//            ));
 
+    /**
+     * Method switch current scene to menu scene
+     * @param event
+     * @throws IOException
+     */
     public void switchToMenuScene(Event event) throws IOException {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         if (stage.getScene().equals(ApplicationRunner.sceneSimulation)) {
@@ -80,12 +100,23 @@ public class Habitat {
         stage.show();
     }
 
+    /**
+     * Method switch current scene to Simulation or Main scene
+     * @param event
+     * @throws IOException
+     */
     public void switchToMainScene(Event event) throws IOException {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ApplicationRunner.sceneSimulation);
         stage.show();
     }
 
+    /**
+     * Method switch current scene to settings scene if simulation is going
+     * then it's ending
+     * @param event
+     * @throws IOException
+     */
     public void switchToSettingsScene(Event event) throws IOException {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         if (stage.getScene().equals(ApplicationRunner.sceneSimulation)) {
@@ -147,13 +178,13 @@ public class Habitat {
     }
 
     public void update() throws URISyntaxException {
-        if ((getSecond() % N1 == 0) && (Math.random() <= P1)) {
+        if ((getSecond() % DevProb == 0) && (Math.random() <= appearanceProb)) {
             Employee programmer = new Developer(getRandom(), getRandom(), 50, 50);
             employees.add(programmer);
             anchorPane.getChildren().add(programmer.getImageView());
             developerCount++;
         }
-        if ((getSecond() % N2 == 0) && ((managerCount + 1) / (double) (developerCount)) < K && developerCount != 0){
+        if ((getSecond() % ManagerProb == 0) && ((managerCount + 1) / (double) (developerCount)) < K && developerCount != 0){
             Employee manager = new Manager(getRandom(), getRandom(), 50, 50);
             employees.add(manager);
             anchorPane.getChildren().add(manager.getImageView());
@@ -216,6 +247,44 @@ public class Habitat {
         clock.play();
     }
 
+    public void applySettings() {
+        String text = textAreaDeveloperAppearancePeriod.getText();
+        String errorMessage = "";
+        boolean isError = false;
+
+//        for spawn no longer then one time per minute
+//        Pattern.matches("^[0-9]|([0-5][0-9])$", text)
+
+        if (Pattern.matches("^[0-9]{1,3}$", text)) {
+            DevProb = Integer.parseInt(text);
+        } else {
+            isError = true;
+            errorMessage += "Incorrect Dev prob\n";
+        }
+
+        text = textAreaManagerAppearancePeriod.getText();
+        if (Pattern.matches("^[0-9]{1,3}$", text)) {
+            ManagerProb = Integer.parseInt(text);
+        } else {
+            isError = true;
+            errorMessage += "Incorrect Manager prob\n";
+        }
+
+        comboBoxAppearanceProbability.getSelectionModel().selectedItemProperty()
+                .addListener((observableValue, s, t1) -> {
+                    String value = observableValue.getValue();
+                    comboBoxAppearanceProbability.setPromptText(value);
+                    System.out.print(value + " ");
+                    value = value.substring(0, value.indexOf("%"));
+                    appearanceProb = Double.parseDouble(value) / 100;
+                    System.out.println(appearanceProb);
+                });
+
+        if (isError) {
+            showErrorDialogAlert("Settings", errorMessage);
+        }
+    }
+
     private int getSecond() {
         return LocalDateTime.now().minusSeconds(timeStart / 1000).getSecond();
     }
@@ -224,6 +293,32 @@ public class Habitat {
         return new Random().nextDouble(1, anchorPane.getPrefWidth() - 50);
     }
 
+    private void showErrorDialogAlert(String place, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Place: " + place);
+        alert.setContentText("Message:\n" + message);
+
+        Optional<ButtonType> optional = alert.showAndWait();
+        if (optional.get() == ButtonType.OK) {
+            alert.close();
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        assert comboBoxAppearanceProbability != null : "fx:id=\"comboBoxAppearanceProbability\" " +
+                "was not injected: check your FXML file 'comboBoxAppearanceProbability.fxml'.";
+        comboBoxAppearanceProbability.getItems().setAll(
+                FXCollections.observableList(List.of(
+                        "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"
+                ))
+        );
+    }
+
+    /**
+     * This inner class is existing to set action to UI elements by overriding handle method for event
+     */
     private class SwitchFromMainSceneButtonHandler implements EventHandler<Event> {
         @Override
         public void handle(Event evt) {
