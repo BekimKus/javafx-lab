@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import org.controlsfx.control.ToggleSwitch?>
+<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #dadada;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.lab.Habitat" >
+    <children>
+        <AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="550.0">
+            <children>
+                <ImageView fitHeight="${main.height}" fitWidth="550.0" opacity="0.8" pickOnBounds="true">
+                    <image>
+                        <Image url="@photo/background.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+
+        <Label fx:id="labelClock" textFill="#333">
+            <font>
+                <Font name="Caliblri" size="21.0" />
+            </font>
+        </Label>
+
+        <VBox layoutX="570.0" layoutY="10.0" spacing="20.0">
+            <Label fx:id="labelSimulation" layoutX="580.0" layoutY="14.0" text="Simulation disabled" style="-fx-font-weight: bold;" textFill="darkmagenta">
+                <font>
+                    <Font name="Caliblri" size="20.0" />
+                </font>
+            </Label>
+
+            <Label fx:id="labelProgrammer" text="Developers: 0" textFill="darkolivegreen">
+                <font>
+                    <Font name="Caliblri" size="18.0" />
+                </font>
+            </Label>
+
+            <Label fx:id="labelManager" layoutX="580.0" layoutY="482.0" text="Managers: 0" textFill="darkred">
+                <font>
+                    <Font name="Caliblri" size="18.0" />
+                </font>
+            </Label>
+
+            <HBox spacing="20.0">
+                <Button fx:id="buttonStart" text="Start" onAction="#start"
+                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+                <Button fx:id="buttonStop" text="Stop" onAction="#end"
+                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+            </HBox>
+
+            <ToggleSwitch fx:id="toggleSwitchShowClock" text="Show clock" selected="true" />
+            <ToggleSwitch fx:id="toggleSwitchHideClock" text="Hide clock" selected="false" />
+
+            <Button fx:id="buttonGetInformation" text="Information" onAction="#showResultAlert"
+                    style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+
+            <HBox spacing="20">
+                <Button fx:id="buttonSwitchMainToMenuScene" text="Menu" onAction="#switchToMenuScene"
+                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+                <Button fx:id="buttonSwitchMainToSettingsScene" text="Settings" onAction="#switchToSettingsScene"
+                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>
