@@ -10,65 +10,119 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import org.controlsfx.control.ToggleSwitch?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.CheckMenuItem?>
 <AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #dadada;"
             xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.lab.Habitat" >
-    <children>
-        <AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="550.0">
-            <children>
-                <ImageView fitHeight="${main.height}" fitWidth="550.0" opacity="0.8" pickOnBounds="true">
-                    <image>
-                        <Image url="@photo/background.png" />
-                    </image>
-                </ImageView>
-            </children>
-        </AnchorPane>
 
-        <Label fx:id="labelClock" textFill="#333">
+    <BorderPane>
+        <top>
+            <MenuBar id="menuBar" focusTraversable="true" prefWidth="800">
+                <menus>
+                    <Menu text="Simulation">
+                        <items>
+                            <MenuItem text="Start" onAction="#start"/>
+                            <MenuItem text="Stop" onAction="#end"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Information">
+                        <items>
+                            <MenuItem text="Show Object Information" onAction="#showResultAlert"/>
+                            <MenuItem text="Show or hide timer" onAction="#showTime"/>
+                        </items>
+                    </Menu>
+                    <Menu text="AI">
+                        <items>
+                            <CheckMenuItem fx:id="checkMenuDevelopersAnimation" text="Developers" selected="true"
+                                           onAction="#setDeveloperThreadsAnimationRunning"/>
+                            <CheckMenuItem fx:id="checkMenuManagersAnimation" text="Managers" selected="true"
+                                           onAction="#setManagersThreadsAnimationRunning"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Priority">
+                        <items>
+                            <Menu text="Developers">
+                                <CheckMenuItem fx:id="checkDevelopersPriorityLow" text="Low" selected="false"
+                                               onAction="#setDevelopersPriorityLow"/>
+                                <CheckMenuItem fx:id="checkDevelopersPriorityMedium" text="Medium" selected="false"
+                                               onAction="#setDevelopersPriorityMedium"/>
+                                <CheckMenuItem fx:id="checkDevelopersPriorityHigh" text="High" selected="true"
+                                               onAction="#setDevelopersPriorityHigh"/>
+                            </Menu>
+                            <Menu text="Managers">
+                                <CheckMenuItem fx:id="checkManagersPriorityLow" text="Low" selected="false"
+                                               onAction="#setManagersPriorityLow"/>
+                                <CheckMenuItem fx:id="checkManagersPriorityMedium" text="Medium" selected="true"
+                                               onAction="#setManagersPriorityMedium"/>
+                                <CheckMenuItem fx:id="checkManagersPriorityHigh" text="High" selected="false"
+                                               onAction="#setManagersPriorityHigh"/>
+                            </Menu>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+        </top>
+    </BorderPane>
+
+    <AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="550.0" layoutY="26">
+        <children>
+            <ImageView fitHeight="${main.height}" fitWidth="550.0" opacity="0.8" pickOnBounds="true">
+                <image>
+                    <Image url="@photo/background.png" />
+                </image>
+            </ImageView>
+        </children>
+    </AnchorPane>
+
+    <Label fx:id="labelClock" textFill="#333" layoutY="30">
+        <font>
+            <Font name="Caliblri" size="21.0" />
+        </font>
+    </Label>
+
+    <VBox layoutX="570.0" layoutY="26.0" spacing="20.0">
+        <Label fx:id="labelSimulation" layoutX="580.0" layoutY="14.0" text="Simulation disabled" style="-fx-font-weight: bold;" textFill="darkmagenta">
             <font>
-                <Font name="Caliblri" size="21.0" />
+                <Font name="Caliblri" size="20.0" />
             </font>
         </Label>
 
-        <VBox layoutX="570.0" layoutY="10.0" spacing="20.0">
-            <Label fx:id="labelSimulation" layoutX="580.0" layoutY="14.0" text="Simulation disabled" style="-fx-font-weight: bold;" textFill="darkmagenta">
-                <font>
-                    <Font name="Caliblri" size="20.0" />
-                </font>
-            </Label>
+        <Label fx:id="labelDeveloper" text="Developers: 0" textFill="darkolivegreen">
+            <font>
+                <Font name="Caliblri" size="18.0" />
+            </font>
+        </Label>
 
-            <Label fx:id="labelProgrammer" text="Developers: 0" textFill="darkolivegreen">
-                <font>
-                    <Font name="Caliblri" size="18.0" />
-                </font>
-            </Label>
+        <Label fx:id="labelManager" layoutX="580.0" layoutY="482.0" text="Managers: 0" textFill="darkred">
+            <font>
+                <Font name="Caliblri" size="18.0" />
+            </font>
+        </Label>
 
-            <Label fx:id="labelManager" layoutX="580.0" layoutY="482.0" text="Managers: 0" textFill="darkred">
-                <font>
-                    <Font name="Caliblri" size="18.0" />
-                </font>
-            </Label>
-
-            <HBox spacing="20.0">
-                <Button fx:id="buttonStart" text="Start" onAction="#start"
-                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
-                <Button fx:id="buttonStop" text="Stop" onAction="#end"
-                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
-            </HBox>
-
-            <ToggleSwitch fx:id="toggleSwitchShowClock" text="Show clock" selected="true" />
-            <ToggleSwitch fx:id="toggleSwitchHideClock" text="Hide clock" selected="false" />
-
-            <Button fx:id="buttonGetInformation" text="Information" onAction="#showResultAlert"
+        <HBox spacing="20.0">
+            <Button fx:id="buttonStart" text="Start" onAction="#start"
                     style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+            <Button fx:id="buttonStop" text="Stop" onAction="#end"
+                    style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+        </HBox>
 
-            <HBox spacing="20">
-                <Button fx:id="buttonSwitchMainToMenuScene" text="Menu" onAction="#switchToMenuScene"
-                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
-                <Button fx:id="buttonSwitchMainToSettingsScene" text="Settings" onAction="#switchToSettingsScene"
-                        style="-fx-font-family: Calibry; -fx-font-size: 14"/>
-            </HBox>
-        </VBox>
-    </children>
+        <ToggleSwitch fx:id="toggleSwitchShowClock" text="Show clock" selected="true" />
+        <ToggleSwitch fx:id="toggleSwitchHideClock" text="Hide clock" selected="false" />
+
+        <Button fx:id="buttonGetInformation" text="Information" onAction="#showResultAlert"
+                style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+
+        <HBox spacing="20">
+            <Button fx:id="buttonSwitchMainToMenuScene" text="Menu" onAction="#switchToMenuScene"
+                    style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+            <Button fx:id="buttonSwitchMainToSettingsScene" text="Settings" onAction="#switchToSettingsScene"
+                    style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+        </HBox>
+    </VBox>
 </AnchorPane>
