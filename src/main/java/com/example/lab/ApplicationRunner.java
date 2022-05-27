@@ -53,7 +53,8 @@ public class ApplicationRunner extends Application {
                     .toFile().toURI().toString()));
 
 //            stage.setScene(sceneMenu);
-            stage.setScene(sceneSettings);
+//            stage.setScene(sceneSettings);
+            stage.setScene(sceneSimulation);
             stage.show();
             stage.setResizable(false);
         } catch (Exception e) {
