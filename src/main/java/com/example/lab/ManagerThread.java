@@ -16,8 +16,6 @@ public class ManagerThread extends BaseAI {
     private final Manager manager;
     private static boolean isPlay = true;
     private double radius = new Random().nextDouble(15, 50);
-    private double moveX = 1;
-    private double moveY = 1;
 
     public ManagerThread(Manager manager, int speed) {
         super(speed);
@@ -93,8 +91,6 @@ public class ManagerThread extends BaseAI {
                 new MoveTo(centerX - radius, centerY - radius),
                 arcTo,
                 new ClosePath());
-        path.setStroke(Color.DODGERBLUE);
-        path.getStrokeDashArray().setAll(5d, 5d);
         return path;
     }
 

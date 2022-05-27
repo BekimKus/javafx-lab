@@ -4,12 +4,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.Serial;
+import java.io.Serializable;
 import java.nio.file.Path;
 
-public class Developer extends Employee implements IBehaviour {
+public class Developer extends Employee implements IBehaviour, Serializable {
 
-    public Developer(double x, double y, double height, double width) {
-        super(x, y, height, width);
+    @Serial
+    private static final long serialVersionUID = -5371783121337319042L;
+
+    public Developer(double x, double y, double height, double width, int timeToLive) {
+        super(x, y, height, width, timeToLive);
         File file = Path.of("src", "main", "resources", "com", "example", "lab", "photo", "developer.png")
                 .toFile();
         ImageView imageView = new ImageView();
@@ -30,4 +35,9 @@ public class Developer extends Employee implements IBehaviour {
         System.out.println("Overrided interface method in Developer class");
     }
 
+    @Override
+    public String toString() {
+        return "Developer{" + getImageView().toString() + ", " +
+                getAppearanceTime() + "}";
+    }
 }

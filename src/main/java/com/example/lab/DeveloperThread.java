@@ -49,20 +49,6 @@ public class DeveloperThread extends BaseAI {
                         x1 = new Random().nextDouble(50, 100);
                         y1 = new Random().nextDouble(50, 70);
 
-//                        x1 = 50;
-//                        y1 = 50;
-
-//                        if (x0 + x1 < 100) {
-//                            x1 = -x1;
-//                        } else if (x0 + x1 > 170) {
-//                            x1 = -x1;
-//                        }
-//                        if (y0 + y1 < 100) {
-//                            y1 = -y1;
-//                        } else if (y0 + y1 > 220) {
-//                            y1 = -y1;
-//                        }
-
                         if (x0 + x1 < 100) {
 //                            x1 = 70-x0;
                             x1 = -x1;
@@ -94,11 +80,6 @@ public class DeveloperThread extends BaseAI {
                         transition.setToX(x1);
                         transition.setToY(y1);
                         transition.setCycleCount(0);
-//                        transition.setFromX(x0);
-//                        transition.setFromY(y0);
-//                        transition.setByX(x1);
-//                        transition.setByY(y1);
-//                        transition.play();
 
                         if (!isPlay && transition.getStatus().equals(Animation.Status.RUNNING)) {
                             transition.pause();
@@ -109,12 +90,8 @@ public class DeveloperThread extends BaseAI {
 
                     developer.wait(Math.round(seconds) * 1000L);
                     transition.stop();
-//                    x0 = transition.toXProperty().get();
-//                    y0 = transition.toYProperty().get();
                     x0 += x1;
                     y0 += y1;
-//                    System.out.println(getName() + " " + (int) x0 + " " + (int) y0);
-//                    System.out.println(getName() + " " + transition.getFromX() + " " + transition.getFromY());
 
 
 

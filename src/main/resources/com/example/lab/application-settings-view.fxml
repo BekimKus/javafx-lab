@@ -12,7 +12,7 @@
             fx:controller="com.example.lab.Habitat"
             prefHeight="600.0" prefWidth="800.0">
     <center>
-        <VBox spacing="30" alignment="CENTER">
+        <VBox spacing="30" alignment="CENTER" >
 
             <Label fx:id="labelSettings" text="Settings" textFill="#333" style="-fx-font-weight: bold;">
                 <font>
@@ -20,8 +20,60 @@
                 </font>
             </Label>
 
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="labelDeveloperAppearancePeriod" text="Developer appearance period"
+                       style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+                <TextField fx:id="textFieldDeveloperAppearancePeriod" prefWidth="75" prefHeight="40"
+                           text="4"
+                           style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="labelManagerAppearancePeriod" text="Manager appearance period"
+                       style="-fx-font-family: Calibry; -fx-font-size: 14" />
+                <TextField fx:id="textFieldManagerAppearancePeriod" prefWidth="75" prefHeight="40"
+                          text="5"
+                          style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="labelManagerToDevRatio" text="Manager to developer ratio"
+                       style="-fx-font-family: Calibry; -fx-font-size: 14" />
+                <TextField fx:id="textFieldManagerToDevRatio" prefWidth="75" prefHeight="40"
+                          text="0.5"
+                          style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="labelDeveloperTimeToLive" text="Developer time to live"
+                       style="-fx-font-family: Calibry; -fx-font-size: 14" />
+                <TextField fx:id="textFieldDeveloperTimeToLive" prefWidth="75" prefHeight="40"
+                           text="15"
+                           style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="labelManagerTimeToLive" text="Manager time to live"
+                       style="-fx-font-family: Calibry; -fx-font-size: 14" />
+                <TextField fx:id="textFieldManagerTimeToLive" prefWidth="75" prefHeight="40"
+                          text="15"
+                          style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="labelAppearanceProbability" text="Developer appearance probability"
+                       style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+                <ComboBox fx:id="comboBoxAppearanceProbability" prefWidth="80" prefHeight="30"
+                          promptText="90%"
+                          style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+            </HBox>
+
             <HBox spacing="30" alignment="CENTER">
-                <Button fx:id="buttonApplySettings" text="Apply">
+                <Button fx:id="buttonApplySettings" text="Apply" onAction="#applySettings">
                     <font>
                         <Font name="Caliblri" size="18.0" />
                     </font>

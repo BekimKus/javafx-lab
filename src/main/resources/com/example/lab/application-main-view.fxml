@@ -118,6 +118,9 @@
         <Button fx:id="buttonGetInformation" text="Information" onAction="#showResultAlert"
                 style="-fx-font-family: Calibry; -fx-font-size: 14"/>
 
+        <Button fx:id="buttonServer" text="Connect to Server" onAction="#startServer"
+                style="-fx-font-family: Calibry; -fx-font-size: 14"/>
+
         <HBox spacing="20">
             <Button fx:id="buttonSwitchMainToMenuScene" text="Menu" onAction="#switchToMenuScene"
                     style="-fx-font-family: Calibry; -fx-font-size: 14"/>

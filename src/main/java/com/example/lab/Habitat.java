@@ -1,5 +1,6 @@
 package com.example.lab;
 
+import com.example.lab.client.ClientThread;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Habitat implements Initializable {
     /**
@@ -109,12 +111,13 @@ public class Habitat implements Initializable {
     private static int managerTimeToLive = 15;
     private boolean isEnd = true;
 
-    private List <Employee> employees = new LinkedList<>();
+    public static List <Employee> employees = new LinkedList<>();
     private Map<Integer, Integer> employeesAppearanceTime = new HashMap<>();
     private Set<Integer> employeeID = new TreeSet<>();
 
-    private List<DeveloperThread> developerThreads = new LinkedList<>();
-    private List<ManagerThread> managerThreads = new LinkedList<>();
+    public static List<DeveloperThread> developerThreads = new LinkedList<>();
+    public static List<ManagerThread> managerThreads = new LinkedList<>();
+    private ClientThread clientThread;
 
     /**
      * Метод переключает текущую сцену на сцену с главным менюю.
@@ -154,6 +157,21 @@ public class Habitat implements Initializable {
         }
         stage.setScene(ApplicationRunner.sceneSettings);
         stage.show();
+    }
+
+
+    public void startServer() throws IOException, InterruptedException {
+
+//        List<Employee> developers = Habitat.employees.stream()
+//                .filter(employee -> employee instanceof Developer)
+//                .collect(Collectors.toList());
+//        Object object = developers;
+//        System.out.println(developers);
+
+        if (clientThread == null) {
+            clientThread = new ClientThread();
+            clientThread.start();
+        }
     }
 
     /**
